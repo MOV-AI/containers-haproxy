@@ -1,0 +1,30 @@
+name: "Build&Deploy haproxy images"
+
+on:
+  # Trigger the workflow on push or pull request
+  # but only for the main branch
+  # or on tag of type v*.*.*
+  push:
+    branches:
+      - main
+      - dev
+    tags:
+      - 'v*.*.*'
+  pull_request:
+    branches:
+      - main
+      - dev
+  release:
+    types: [released]
+jobs:
+  haproxy:
+    uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@main
+    with:
+      docker_file: Dockerfile
+      docker_image: devops/haproxy
+      github_ref: ${{ github.ref }}
+      public: true
+      public_image: ce/haproxy
+    secrets:
+      registry_user: ${{ secrets.PORTUS_APP_USER }}
+      registry_password: ${{ secrets.PORTUS_APP_TOKEN }}
