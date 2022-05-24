@@ -7,13 +7,12 @@
 ## Run
 
     export MOVAI_ENV=release
-    docker run -it -e MOVAI_ENV haproxy:latest
+    docker run -it -e MOVAI_ENV haproxy:movai
 
 ## Features
 - Multiple configurations switching based on MOVAI_ENV value
 
 - Enabled static backends:
-    - ha-backend-manager : manager container (`/manager`)
     - ha-backend-monitoring : monitoring container (`/monitoring`)
     - ha-backend-health-node : health-node container (`/health`)
     - ha-backend-http : backend container (`/`)
@@ -26,4 +25,3 @@
   - ha-frontend-redis-master : tcp 6379, ssl (outer interface)
   - ha-frontend-redis-slave : tcp 6379 (inner network)
   - ha-frontend-spawner : tcp, dynamic ports FMT_PORTS
-  - ha-frontend-manager : http, 8443, ssl
