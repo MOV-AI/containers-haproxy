@@ -23,6 +23,9 @@ COPY config/dev/haproxy_develop.cfg \
 # SSL Certificate
 COPY common_files/proxy.pem /etc/ssl/private/proxy.pem
 
+# Cors lua script
+COPY common_files/cors.lua /usr/local/etc/haproxy/cors.lua
+
 # Custom entrypoint
 COPY common_files/movai-entrypoint.sh /usr/local/bin/
 
