@@ -6,8 +6,8 @@ LABEL description="MOV.AI Load Balancer Image"
 LABEL maintainer="devops@mov.ai"
 LABEL movai="haproxy"
 
-# User Rights
 USER root
+# Set user rights
 RUN chown haproxy:haproxy /usr/local/etc/haproxy /run/ -R
 
 USER haproxy
@@ -18,7 +18,6 @@ COPY config/dev/haproxy_develop.cfg \
     config/qa/haproxy_qa.cfg \
     config/release/haproxy_release.cfg \
     /usr/local/etc/haproxy/
-
 
 # SSL Certificate
 COPY common_files/proxy.pem /etc/ssl/private/proxy.pem

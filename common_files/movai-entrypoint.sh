@@ -21,9 +21,13 @@
 # else
 
 test -z "${SPAWNER_PORTS}" && SPAWNER_PORTS='disabled'
-test -z "${MOVAI_ENV}" && MOVAI_ENV='release'
 
-CONFIG_FILE="/usr/local/etc/haproxy/haproxy_${MOVAI_ENV}.cfg"
+if [ -f "/usr/local/etc/haproxy/haproxy.cfg" ]; then
+    CONFIG_FILE="/usr/local/etc/haproxy/haproxy.cfg"
+else
+    test -z "${MOVAI_ENV}" && MOVAI_ENV='release'
+    CONFIG_FILE="/usr/local/etc/haproxy/haproxy_${MOVAI_ENV}.cfg"
+fi
 
 printf "Replacing config ports: %s\n" "${SPAWNER_PORTS}"
 printf "Using config file:      %s\n" "${CONFIG_FILE}"

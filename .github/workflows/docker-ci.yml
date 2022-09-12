@@ -18,16 +18,23 @@ on:
     types: [released]
 jobs:
   haproxy:
-    uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@main
+    uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@v1
     with:
       docker_file: Dockerfile
       docker_image: devops/haproxy
       github_ref: ${{ github.ref }}
+      deploy: ${{ contains(github.ref, 'refs/heads/main') || contains(github.ref, 'refs/tags/v')}}
+      version: ${GITHUB_REF##*/}
+      push_latest: ${{ contains(github.ref, 'refs/heads/main') || contains(github.ref, 'refs/tags/v') }}
       public: true
       public_image: ce/haproxy
+      snyk_check: true
     secrets:
       registry_user: ${{ secrets.PORTUS_APP_USER }}
       registry_password: ${{ secrets.PORTUS_APP_TOKEN }}
+      pub_registry_user: ${{ secrets.PORTUS_APP_USER }}
+      pub_registry_password: ${{ secrets.PORTUS_APP_TOKEN }}
+      snyk_token: ${{ secrets.SNYK_TOKEN }}
   extra_tagging:
     needs: [haproxy]
     runs-on: ubuntu-latest
@@ -37,7 +44,7 @@ jobs:
     if: ${{ contains(github.ref, 'refs/heads/main') || contains(github.ref, 'refs/tags/v')}}
     steps:
       - name: Login to Movai Registry
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.PORTUS_APP_USER }}
           password: ${{ secrets.PORTUS_APP_TOKEN }}
