@@ -18,11 +18,14 @@ on:
     types: [released]
 jobs:
   haproxy:
-    uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@main
+    uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@feat/docker_args
     with:
       docker_file: Dockerfile
       docker_image: devops/haproxy
       github_ref: ${{ github.ref }}
+      deploy: ${{ contains(github.ref, 'refs/heads/main') || contains(github.ref, 'refs/tags/v')}}
+      version: ${GITHUB_REF##*/}
+      push_latest: ${{ contains(github.ref, 'refs/heads/main') || contains(github.ref, 'refs/tags/v') }}
       public: true
       public_image: ce/haproxy
     secrets:
