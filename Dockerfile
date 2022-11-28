@@ -8,7 +8,11 @@ LABEL movai="haproxy"
 
 USER root
 # Set user rights
-RUN chown haproxy:haproxy /usr/local/etc/haproxy /run/ -R
+RUN chown haproxy:haproxy /usr/local/etc/haproxy /run/ -R \
+ && apt-get update \
+ && apt-get install -y socat \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 
 USER haproxy
 
