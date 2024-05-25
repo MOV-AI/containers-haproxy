@@ -31,9 +31,6 @@ COPY config/dev/haproxy_develop.cfg \
     config/release/haproxy_release.cfg \
     /usr/local/etc/haproxy/
 
-# SSL Certificate
-COPY common_files/proxy.pem /etc/ssl/private/proxy.pem
-
 # Cors lua script
 COPY common_files/cors.lua /usr/local/etc/haproxy/cors.lua
 
