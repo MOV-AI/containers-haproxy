@@ -20,6 +20,11 @@
 [ $# -gt 0 ] && exec "$@"
 # else
 
+# Generate the certificates
+if [ ! -f "/etc/ssl/private/proxy.pem" ]; then
+    /usr/local/etc/haproxy/gen_cert.sh
+fi
+
 test -z "${SPAWNER_PORTS}" && SPAWNER_PORTS='disabled'
 
 if [ -f "/usr/local/etc/haproxy/haproxy.cfg" ]; then

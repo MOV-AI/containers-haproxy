@@ -7,8 +7,16 @@ LABEL maintainer="devops@mov.ai"
 LABEL movai="haproxy"
 
 USER root
+
+# SSL Certificates directory
+VOLUME [ "/etc/ssl/private/" ]
+
+# SSL Certificate generation script
+COPY --chown=haproxy:haproxy scripts/gen_cert.sh /usr/local/etc/haproxy/
+
 # Set user rights
-RUN chown haproxy:haproxy /usr/local/etc/haproxy /run/ -R \
+RUN chown haproxy:haproxy /usr/local/etc/haproxy /run/ /etc/ssl -R \
+ && chmod +x /usr/local/etc/haproxy/gen_cert.sh \
  && apt-get update \
  && apt-get install -y --no-install-recommends socat \
  && apt-get clean \
