@@ -1,12 +1,9 @@
 #!/bin/bash
 
 # Generate a self-signed certificate for the proxy
-# The certificate will be signed by a self-signed certificate authority or by a verifiable certificate authority
+# The certificate will be signed by a self-signed certificate authority or by a verifiable certificate authority (CA)
 # The certificate will be generated with a 2048-bit RSA key
 # The certificate will be valid for 720 days
-# The certificate will be valid for the domain "localhost"
-# The certificate will be saved to the file "proxy.pem" in the current directory
-# If a different path is provided as an argument, the certificate will be saved to that path instead
 # The certificate will be saved in PEM format, with the private key first and the certificate second
 #
 # Usage: ./gen_cert.sh [CERT_DEST_PATH]

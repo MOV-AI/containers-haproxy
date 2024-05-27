@@ -16,6 +16,10 @@
 #
 # File: docker-entrypoint.sh
 
+HTTPS_VERIFY="false"
+REDIS_VERIFY="false"
+ROS_TOOLS_VERIFY="false"
+
 # if commands passed
 [ $# -gt 0 ] && exec "$@"
 # else
@@ -39,4 +43,26 @@ printf "Using config file:      %s\n" "${CONFIG_FILE}"
 
 sed -Ei "s/\{FMT_PORTS\}/${SPAWNER_PORTS}/" "${CONFIG_FILE}"
 
+# Set the SSL verification mode for HTTPS frontend
+if [ "${HTTPS_VERIFY}" = "true" ]; then
+    export HTTPS_VERIFY="required"
+else
+    export HTTPS_VERIFY="none"
+fi
+
+# Set the SSL verification mode for ROS Tools frontend
+if [ "${ROS_TOOLS_VERIFY}" = "true" ]; then
+    export ROS_TOOLS_VERIFY="required"
+else
+    export ROS_TOOLS_VERIFY="none"
+fi
+
+# Set the SSL verification mode for Redis frontend
+if [ "${VERIFY_REDIS_CERTS}" = "true" ]; then
+    export REDIS_SSL_VERIFY="required"
+else
+    export REDIS_SSL_VERIFY="none"
+fi
+
+# Start the HAProxy
 /usr/local/bin/docker-entrypoint.sh -f "${CONFIG_FILE}"
