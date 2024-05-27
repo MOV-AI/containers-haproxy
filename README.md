@@ -1,5 +1,7 @@
 # Haproxy for MOV.AI
 
+> WARNING: UNSECURE configuration which is not OWASP compliant at all
+
 ## Build
 
     docker build --pull -t haproxy:movai .
