@@ -26,7 +26,17 @@ ROS_TOOLS_VERIFY="false"
 
 # Generate the certificates
 if [ ! -f "/etc/ssl/private/proxy.pem" ]; then
-    /usr/local/etc/haproxy/gen_cert.sh
+    GEN_CERT_OPTS=""
+    if [ -n "${PUBLIC_IP}" ]; then
+        CN_ARG="${PUBLIC_IP}"
+        GEN_CERT_OPTS="${GEN_CERT_OPTS} --cn ${CN_ARG}"
+    fi
+
+    if [ -n "${DNS_ALT_NAMES}" ]; then
+        ALT_NAMES_ARG="${DNS_ALT_NAMES}"
+        GEN_CERT_OPTS="${GEN_CERT_OPTS} --alt_names ${ALT_NAMES_ARG}"
+    fi
+    /usr/local/etc/haproxy/gen_cert.sh ${GEN_CERT_OPTS}
 fi
 
 test -z "${SPAWNER_PORTS}" && SPAWNER_PORTS='disabled'
