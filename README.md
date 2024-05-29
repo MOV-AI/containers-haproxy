@@ -32,10 +32,18 @@
   - ha-frontend-ros-tools : http 8901, ssl
   - admin_socket : admin socket for haproxy stats, 2000 (no ssl)
 
+
+- Certificates generation for frontends that use SSL (http, redis-master, ros-tools) see [Certificates](#certificates) for more information
+
+- Certificates verification for frontends that use SSL (http, redis-master, ros-tools) see [Certificates verification](#certificates-verification) for more information
+
 ## Certificates
 
 Server SSL certificates are generated on the fly for the frontends that require them (http, redis-master, ros-tools).
 Certificates are stored in `/etc/ssl/private` and are valid for 2 years
+
+> [!TIP]
+> All useful certificates information is displayed in the logs at the start of the container.
 
 ### Server Certificates generation
 Server Certificates can be generated inside the container using the `generate-cert.sh` script as follows during runtime:
@@ -70,8 +78,8 @@ Client Certificates can be generated using the `generate-cert.sh` script as foll
 where `<client_names>` is a comma separated list of client names.
 This will generate a client certificate signed by the proxy's certificate authority with the DNS names given in `<client_names>` and print its information to the console so that it can be saved to a file and then imported into the browser using the printed password.
 
-[!NOTE]
-A docker exec command should be used to run the script inside the running container as stated above.
+> [!NOTE]
+> A docker exec command should be used to run the script inside the running container as stated above.
 
 Example of ouput:
 ```
@@ -107,8 +115,6 @@ The verification is done by checking the certificate chain and its certificate a
 > # hostname of client is 'client_hostname' or 'client_hostname.example.com'
 > /usr/local/etc/haproxy/gen_cert.sh --gen_client_cert=client_hostname,client_hostname.example.com
 > ```
-
-> All useful certificates information is displayed in the logs at the start of the container.
 
 When using QA configuration, haproxy can be reconfigured to verify or not the certificates by setting:
 - the `HTTPS_VERIFY` environment variable to `true` or `false` for the `ha-frontend-http` frontend
