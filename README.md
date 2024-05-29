@@ -104,7 +104,7 @@ echo "MIILXgIBAzC...==" | base64 -d > client.p12
 
 ### Certificates verification
 
-The certificates verification is enabled only in the `release` environment.
+The certificates verification is recommended only in the `release` environment.
 The verification is done by checking the certificate chain and its certificate authority (CA) using the `verify` option in the `bind` directive in the haproxy configuration file.
 
 > [!IMPORTANT]
