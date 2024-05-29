@@ -29,6 +29,7 @@ function print_help {
     echo "The certificate will be saved in PEM format, with the private key first and the certificate second"
     echo ""
     echo "Arguments:"
+    echo "  --ssl_dest_dir: The directory to save the certificate to (default: '/etc/ssl/private')"
     echo "  --cert_dest_path: The path to save the certificate to (default: 'proxy.pem')"
     echo "  --ca_cert_path: The path to the CA certificate to sign the certificate with (default: 'ca.pem')"
     echo "  --ca_key_path: The path to the CA key to sign the certificate with (default: 'ca-key.pem')"
@@ -194,6 +195,9 @@ case $i in
     ;;
     *)
     # unknown option
+    echo -e "\nError: Unknown option: $i\n"
+    HELP="true"
+    shift
     ;;
 esac
 done
