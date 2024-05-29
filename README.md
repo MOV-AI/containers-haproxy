@@ -65,8 +65,8 @@ where `<options>` can be:
 --help: Display this help message
 ```
 
-  [!NOTE]
-  A docker exec command should be used to run the script inside the running container as stated above.
+> [!NOTE]
+> A docker exec command should be used to run the script inside the running container as stated above.
 
 ### Client Certificates generation
 
