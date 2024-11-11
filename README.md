@@ -19,12 +19,13 @@
     - ha-backend-redis-master : redis-master container
     - ha-backend-redis-slave : redis-slave container
     - ha-backend-spawner : spawner container
-    - ha-backend-ros-tools : ros-tools container
+    - ha-backend-ros-tools : ros-tools container (`/ros-tools`)
     - ha-backend-ros-master : ros-master container
+    - ha-backend-influxdb : influxdb container (`/influxdb`)
 
 
 - Enabled static frontends:
-  - ha-frontend-http : http, 80 and 443, ssl
+  - ha-frontend-http : http, 80 and 443, ssl (`/monitoring` and `/influxdb` need authentication)
   - ha-frontend-redis-master : tcp 6379, ssl (outer interface)
   - ha-frontend-redis-slave : tcp 6379 (inner network)
   - ha-frontend-spawner : tcp, dynamic ports FMT_PORTS
@@ -36,6 +37,24 @@
 - Certificates generation for frontends that use SSL (http, redis-master, ros-tools) see [Certificates](#certificates) for more information
 
 - Certificates verification for frontends that use SSL (http, redis-master, ros-tools) see [Certificates verification](#certificates-verification) for more information
+
+- Authentication is required for the `/monitoring` and `/influxdb` paths in the `ha-frontend-http` frontend.
+
+
+## Authenticated users
+
+The `ha-frontend-http` frontend requires authentication for the `/monitoring` and `/influxdb` paths.
+The username and password are set in the `haproxy.cfg` file and are `admin` and `admin123` respectively.
+
+- To add more users dynamically to this group, the `haproxy.cfg` file can be updated with the new user's credentials.
+  Passwords should be hashed using the `mkpasswd` command as follows:
+
+```bash
+mkpasswd -m sha-256 <password>
+```
+
+- To remove a user from the group, the `haproxy.cfg` file can be updated to remove the user.
+- The `haproxy.cfg` file should be updated with the new user's credentials and the container should be restarted to apply the changes.
 
 ## Certificates
 
