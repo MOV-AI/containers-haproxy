@@ -25,18 +25,20 @@ ROS_TOOLS_VERIFY="false"
 # else
 
 # Generate the certificates
-if [ ! -f "/etc/ssl/private/proxy.pem" ]; then
+if [ ! -f "/etc/ssl/private/proxy.pem" ] && [ ! -f "/etc/ssl/certs/proxy.pem" ]; then
     GEN_CERT_OPTS=""
     if [ -n "${PUBLIC_IP}" ]; then
         CN_ARG="${PUBLIC_IP}"
-        GEN_CERT_OPTS="${GEN_CERT_OPTS} --cn ${CN_ARG}"
+        GEN_CERT_OPTS="${GEN_CERT_OPTS} --cn=${CN_ARG}"
     fi
 
     if [ -n "${DNS_ALT_NAMES}" ]; then
         ALT_NAMES_ARG="${DNS_ALT_NAMES}"
-        GEN_CERT_OPTS="${GEN_CERT_OPTS} --alt_names ${ALT_NAMES_ARG}"
+        GEN_CERT_OPTS="${GEN_CERT_OPTS} --alt_names=${ALT_NAMES_ARG}"
     fi
     /usr/local/etc/haproxy/gen_cert.sh ${GEN_CERT_OPTS}
+else
+    printf "Certificate already exists, skipping generation\n"
 fi
 
 test -z "${SPAWNER_PORTS}" && SPAWNER_PORTS='disabled'
