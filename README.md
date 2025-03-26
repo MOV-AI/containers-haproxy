@@ -100,7 +100,7 @@ This will generate a client certificate signed by the proxy's certificate author
 > [!NOTE]
 > A docker exec command should be used to run the script inside the running container as stated above.
 
-Example of ouput:
+Example of output:
 ```
 ./scripts/gen_cert.sh --gen_client_cert --cn=foobar --alt_names=foobar,foobar.example.
 com --ssl_dest_dir=$PWD
